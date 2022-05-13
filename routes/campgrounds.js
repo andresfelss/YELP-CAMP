@@ -6,9 +6,8 @@ const router = express.Router();
  * Crear Campgrpund
  */
 router.get('/', async (req,res)=>{
-    const camp = new Campground({title: 'My backyard', description: 'Cheap camp '});
-    await camp.save();
-    res.send(camp)
+  const campgrounds = await Campground.find({});
+  res.render('campgrounds/index', {campgrounds});
 })
 
 
