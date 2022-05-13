@@ -18,3 +18,5 @@ const a = fs.readdirSync(PATH_ROUTES).filter((file)=>{
         router.use(`/${name}`, require(`./${file}`)) // htttp://localhost/api/ users o lo que sea
     }
 });
+
+module.exports = router
