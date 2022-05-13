@@ -3,9 +3,11 @@ const express = require('express');
 const mongoose  = require('mongoose');
 const path =require('path');
 const app = express();
-
-
 const main = require('./config/mongo');
+
+app.use(express.urlencoded({extended: true}));
+
+
 // DATA BASE CONFIG
 main().catch(e => console.log(e));
 
