@@ -2,6 +2,8 @@
 
 <h1> Campground <%= camp.title %> </h1>
 <h2> <%= camp.location %> </h2>
+<img src="<%= camp.image %> " alt="">
+<p><%= camp.description %> </p>
 <footer>
     <a href="/api/campgrounds">All Campgrounds</a>
     <a href="/api/campgrounds/<%= camp._id %>/edit ">Edit</a>
