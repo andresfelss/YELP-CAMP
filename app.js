@@ -4,9 +4,13 @@ const express = require('express');
 const mongoose  = require('mongoose');
 const path =require('path');
 const methodOverride = require('method-override');
+const engine = require('ejs-mate')
 const main = require('./config/mongo'); // llamo la configuracion de mi Base de Datos
 // ---------------- El codigo empieza aca ---------------------------------------------
 const app = express(); // Inicio mi express app
+
+app.engine('ejs', engine) // configuramos en view engine
+
 app.use(express.urlencoded({extended: true})); // Para que reciba elementos en el body
 
 // Configuracion EJS View Engine
