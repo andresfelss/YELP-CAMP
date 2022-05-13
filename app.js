@@ -1,9 +1,16 @@
 const express = require('express');
+const path =require('path');
+
 const app = express();
+
+// Configuracion EJS View Engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname,'views')); // Directorio
+
 
 
 app.get('/', (req,res)=>{
-    res.send('Funciono');
+    res.render('home');
 })
 
 
