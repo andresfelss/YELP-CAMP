@@ -2,11 +2,17 @@ const { Console } = require('console');
 const express = require('express');
 const mongoose  = require('mongoose');
 const path =require('path');
+const methodOverride = require('method-override');
+
+
 const app = express();
 const main = require('./config/mongo');
 
 app.use(express.urlencoded({extended: true}));
 
+
+// Config Method- override
+app.use(methodOverride('_method'));
 
 // DATA BASE CONFIG
 main().catch(e => console.log(e));

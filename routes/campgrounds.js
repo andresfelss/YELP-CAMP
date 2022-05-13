@@ -1,5 +1,6 @@
 const express = require('express');
 const { append } = require('express/lib/response');
+const { findByIdAndUpdate } = require('../models/campground');
 const Campground = require('../models/campground');
 const router = express.Router();
 
@@ -33,10 +34,15 @@ router.get('/:id', async(req,res)=>{
 /**
  * Edit Campgrpund
  */
-append.get('/:id/edit', async(req,res) => {
+router.get('/:id/edit', async(req,res) => {
   const {id} = req.params;
   const camp = await Campground.findById(id);
   res.render('campgrounds/edit' , {camp});
-})
+});
+router.put('/:id', async(req,res) =>{
+  const {id} = req.params;
+  const camp = await Campground.findByIdAndUpdate(id,req.body.campground, {runValidators:true});
+  res.redirect(`/api/campgrounds/${camp._id}`);
+});
 
 module.exports = router;

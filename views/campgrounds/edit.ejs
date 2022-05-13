@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Edit campground</h1>
-    <form action="/api/campgrounds" method="post">
+    <form action="/api/campgrounds/<%=camp._id %>?_method=PUT" method="post">
         <div>
             <label for="title"> Title </label>
             <input type="text" name="campground[title]" id="title" value="<%= camp.title %> ">
@@ -17,11 +17,11 @@
             <label for="location"> Location </label>
             <input type="text" name="campground[location]" id="location" value="<%= camp.location %> ">
         </div>
-        <button>Add Campground</button>
+        <button>Edit Campground</button>
 
 
     </form>
-    <a href="/api/campgrounds/<%= camp._id %> ">All Campgrounds</a>
+    <a href="/api/campgrounds/<%= camp._id %>">Back to the campground</a>
     
 </body>
 </html>
