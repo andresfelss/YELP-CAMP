@@ -17,7 +17,8 @@ async function main(){
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname,'views')); // Directorio
 
-
+// Para cargar de manera dinamica las rutas
+app.use("/api", require('./routes'));
 
 app.get('/', (req,res)=>{
     res.render('home');
