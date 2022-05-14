@@ -6,6 +6,7 @@ const path =require('path');
 const methodOverride = require('method-override');
 const engine = require('ejs-mate')
 const main = require('./config/mongo'); // llamo la configuracion de mi Base de Datos
+const ExpressError = require('./helpers/ExpressErrors')
 // ---------------- El codigo empieza aca ---------------------------------------------
 const app = express(); // Inicio mi express app
 
@@ -26,16 +27,20 @@ main().catch(e => console.log(e));
 app.get('/', (req,res)=>{
     res.render('home'); // Mi HTML de Home
 })
-
-
-
 // Para cargar de manera dinamica las rutas
 app.use("/api", require('./routes'));
 
 
+
+app.all('*',(req,res,next)=>{
+    next( new ExpressError('Page Not Found', 404) );
+})
+
 // defining a generic route for errors
 app.use((err,req,res,next)=>{
-    res.send('Oh boy something went wrong')
+    const {statusCode=500} = err
+    if(!err.message) err.message = 'Something went Wrong mate';
+    res.status(statusCode).render('error', {err})
 })
 
 // EL listen siempre al final
