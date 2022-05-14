@@ -5,15 +5,33 @@ const Campground = require('../models/campground');
 const router = express.Router();
 const cathcAsync = require('../helpers/catchAsync');
 
+const Joi = require('joi');
+const ExpressError = require('../helpers/ExpressErrors');
+//joi
+
 // Crear Campground
 router.get('/new', (req,res)=>{
   res.render('campgrounds/new');
 })
 router.post('/',cathcAsync(async(req,res)=>{
-  const camp = new Campground(req.body.campground)
+  const campgroundSchema = Joi.object({
+    campground: Joi.object({
+      title: Joi.string().required(),
+      price: Joi.number().required().min(0),
+    }).required()
+  })
+
+  const  {error} = campgroundSchema.validate(req.body);
+  if(error){
+    const msg =error.details.map(el => el.message).join(',')
+    throw new ExpressError(msg,400)
+  }
+
+  const camp = new Campground(req.body.campground);
   await camp.save();
   res.redirect(`campgrounds/${camp._id}`);
 }))
+
 
 
 
