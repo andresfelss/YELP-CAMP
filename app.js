@@ -28,10 +28,15 @@ app.get('/', (req,res)=>{
 })
 
 
+
 // Para cargar de manera dinamica las rutas
 app.use("/api", require('./routes'));
 
 
+// defining a generic route for errors
+app.use((err,req,res,next)=>{
+    res.send('Oh boy something went wrong')
+})
 
 // EL listen siempre al final
 app.listen(3000, ()=>{
