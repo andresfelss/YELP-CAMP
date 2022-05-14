@@ -16,13 +16,9 @@
                 <label for="price" class="form-label"> Price </label>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="price-label">$</span>
-                    <input type="number" class="form-control" placeholder="0.00" aria-label="price-label" aria-describedby="price-label" id="price"
+                    <input type="number" name="campground[price]" class="form-control" placeholder="0.00" aria-label="price-label" aria-describedby="price-label" id="price">
                 </div>
-
             </div>
-
-
-
             <div class="mb-3">
                 <label for="image" class="form-label"> Image URL </label>
                 <input type="text" name="campground[image]" id="image" class="form-control">
@@ -31,9 +27,6 @@
                 <label for="description" class="form-label"> Description </label>
                 <textarea  name="campground[description]" id="image" class="form-control"></textarea>
             </div>
-
-
-
             <div class="mb-3">
                 <button class="btn btn-success">Add Campground</button>
             </div>
