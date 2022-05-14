@@ -3,29 +3,42 @@
 <div class="row">
     <h1 class="text-center">New Campground</h1>
     <div class="col-6 offset-3">
-        <form action="/api/campgrounds" method="post">
+        <form action="/api/campgrounds" method="post" class ='validated-form'   novalidate>
             <div class="mb-3">
                 <label class="form-label" for="title"> Title </label>
-                <input type="text" name="campground[title]" id="title" class="form-control">
+                <input type="text" name="campground[title]" id="title" class="form-control" required>
+                <div class="valid-feedback">
+                    Looks Good!
+                </div>
             </div>
             <div class="mb-3">
                 <label for="location" class="form-label"> Location </label>
-                <input type="text" name="campground[location]" id="location" class="form-control">
+                <input type="text" name="campground[location]" id="location" class="form-control" required>
+                <div class="valid-feedback">
+                    Looks Good!
+                </div>
             </div>
+            
             <div class="mb-3">
                 <label for="price" class="form-label"> Price </label>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="price-label">$</span>
-                    <input type="number" name="campground[price]" class="form-control" placeholder="0.00" aria-label="price-label" aria-describedby="price-label" id="price">
+                    <input type="number" name="campground[price]" class="form-control" required placeholder="0.00" aria-label="price-label" aria-describedby="price-label" id="price">
+                    <div class="valid-feedback">
+                        Looks Good!
+                    </div>
                 </div>
             </div>
             <div class="mb-3">
                 <label for="image" class="form-label"> Image URL </label>
-                <input type="text" name="campground[image]" id="image" class="form-control">
+                <input type="text" name="campground[image]" id="image" class="form-control" required>
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label"> Description </label>
-                <textarea  name="campground[description]" id="image" class="form-control"></textarea>
+                <textarea  name="campground[description]" id="image" class="form-control" required></textarea>
+                <div class="valid-feedback">
+                    Looks Good!
+                </div>
             </div>
             <div class="mb-3">
                 <button class="btn btn-success">Add Campground</button>
@@ -34,6 +47,3 @@
         <a href="/api/campgrounds">All Campgrounds</a>
     </div>
 </div>
-
-
-    
