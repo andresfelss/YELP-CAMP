@@ -43,6 +43,7 @@ router.get('/:id/edit', cathcAsync(async(req,res) => {
 router.put('/:id',validateCampground, cathcAsync(async(req,res) =>{
   const {id} = req.params;
   const camp = await Campground.findByIdAndUpdate(id, {...req.body.campground}, {runValidators:true});
+  req.flash('success', 'Succesful Updated Campground');
   res.redirect(`/api/campgrounds/${camp._id}`);
 }));
 
@@ -52,6 +53,7 @@ router.put('/:id',validateCampground, cathcAsync(async(req,res) =>{
 router.delete('/:id', cathcAsync(async(req,res) =>{
   const {id} = req.params;
   const camp  = await Campground.findByIdAndDelete(id);
+  req.flash('success', 'Succesful Delete Campground');
   res.redirect(`/api/campgrounds`);
 }));
 
@@ -65,6 +67,7 @@ router.post('/:id/reviews',validateReview, cathcAsync(async(req,res)=>{
   camp.reviews.push(review);
   await review.save();
   await camp.save();
+  req.flash('success', 'Succesful Created New Review');
   res.redirect(`/api/campgrounds/${camp._id}`);
 }));
 /**
@@ -75,6 +78,7 @@ router.delete('/:id/reviews/:reviewId', cathcAsync(async(req,res) =>{
   const { id,reviewId } =req.params;
   await Campground.findByIdAndUpdate(id,{$pull: {reviews: reviewId}}); // quito el Review correspondiente al reviewId de reviews(camp)
   await Review.findByIdAndDelete(reviewId);
+  req.flash('success', 'Succesful Delete the Review');
   res.redirect(`/api/campgrounds/${id}`);
 }));
 
