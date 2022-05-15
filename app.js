@@ -25,7 +25,7 @@ app.use(methodOverride('_method'));
 main().catch(e => console.log(e));
 
 // Serving static files (public directory)
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname,'public')));
 
 
 
