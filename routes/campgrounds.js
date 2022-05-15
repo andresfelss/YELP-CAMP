@@ -15,6 +15,7 @@ router.get('/new', (req,res)=>{
 router.post('/',validateCampground,cathcAsync(async(req,res)=>{
   const camp = new Campground(req.body.campground);
   await camp.save();
+  req.flash('success', 'Succesful made a New Campground');
   res.redirect(`campgrounds/${camp._id}`);
 }))
 
@@ -32,7 +33,7 @@ router.get('/:id', cathcAsync(async(req,res)=>{
 }));
 
 /**
- * Edit Campgrpund
+ * Edit Campground
  */
 router.get('/:id/edit', cathcAsync(async(req,res) => {
   const {id} = req.params;

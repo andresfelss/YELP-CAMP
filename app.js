@@ -2,6 +2,7 @@
 const { Console } = require('console');
 const express = require('express');
 const session = require('express-session');
+const flash = require('connect-flash');
 const mongoose  = require('mongoose');
 const path =require('path');
 const methodOverride = require('method-override');
@@ -41,25 +42,31 @@ const  sessionConfig = {
 }
 app.use(session(sessionConfig))
 
+//Config flash ,Recordar definir el middleware
+app.use(flash());
+
+// Defino middleware para flash
+app.use((req,res,next)=>{
+    res.locals.success = req.flash('success'); // on every single req pass to a local res the message
+    next();
+});
 
 app.get('/', (req,res)=>{
     res.render('home'); // Mi HTML de Home
 })
 // Para cargar de manera dinamica las rutas
 app.use("/api", require('./routes'));
-
-
-
+//Ruta de manejo de errores
 app.all('*',(req,res,next)=>{
     next( new ExpressError('Page Not Found', 404) );
 })
-
 // defining a generic route for errors
 app.use((err,req,res,next)=>{
     const {statusCode=500} = err
     if(!err.message) err.message = 'Something went Wrong mate';
     res.status(statusCode).render('error', {err})
 })
+
 
 // EL listen siempre al final
 app.listen(3000, ()=>{
