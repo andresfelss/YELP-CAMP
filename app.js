@@ -1,5 +1,4 @@
 // Modulos que necesitamos importar
-const { Console } = require('console');
 const express = require('express');
 const session = require('express-session');
 const flash = require('connect-flash');
