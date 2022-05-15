@@ -2,6 +2,7 @@ const express = require('express');
 const { append } = require('express/lib/response');
 const { findByIdAndUpdate, findByIdAndDelete } = require('../models/campground');
 const Campground = require('../models/campground');
+const Review = require('../models/review')
 const router = express.Router();
 const cathcAsync = require('../helpers/catchAsync');
 const ExpressError = require('../helpers/ExpressErrors');
@@ -53,6 +54,21 @@ router.delete('/:id', cathcAsync(async(req,res) =>{
   const camp  = await Campground.findByIdAndDelete(id);
   res.redirect(`/api/campgrounds`);
 }));
+
+
+/**
+ * Ruta para crear un Review
+ */
+router.post('/:id/reviews', cathcAsync(async(req,res)=>{
+  const camp = await Campground.findById(req.params.id);
+  const review = new Review(req.body.review);
+  camp.reviews.push(review);
+  await review.save();
+  await camp.save();
+  res.redirect(`/api/campgrounds/${camp._id}`);
+}));
+
+
 
 
 module.exports = router;
