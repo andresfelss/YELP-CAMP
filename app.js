@@ -48,6 +48,7 @@ app.use(flash());
 // Defino middleware para flash
 app.use((req,res,next)=>{
     res.locals.success = req.flash('success'); // on every single req pass to a local res the message
+    res.locals.error = req.flash('error'); // on every single req pass to a local res the message
     next();
 });
 

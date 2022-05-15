@@ -29,6 +29,10 @@ router.get('/', cathcAsync(async (req,res)=>{
 router.get('/:id', cathcAsync(async(req,res)=>{
   const {id} = req.params;
   const camp = await Campground.findById(id).populate('reviews');
+  if(!camp){ // si no encuentro el campgrund que me devuelva a all campgrounds y me tira la alerta
+    req.flash('error', 'Cannot Find that Campground');
+    return res.redirect('/api/campgrounds');
+  }
   res.render('campgrounds/show' , {camp});
 }));
 
@@ -38,6 +42,10 @@ router.get('/:id', cathcAsync(async(req,res)=>{
 router.get('/:id/edit', cathcAsync(async(req,res) => {
   const {id} = req.params;
   const camp = await Campground.findById(id);
+  if(!camp){ // si trato de editar un campground que no existe
+    req.flash('error', 'Cannot Find that Campground');
+    return res.redirect('/api/campgrounds');
+  }
   res.render('campgrounds/edit' , {camp});
 }));
 router.put('/:id',validateCampground, cathcAsync(async(req,res) =>{
