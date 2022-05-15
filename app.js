@@ -24,6 +24,12 @@ app.use(methodOverride('_method'));
 // DATA BASE CONFIG
 main().catch(e => console.log(e));
 
+// Serving static files (public directory)
+app.use(express.static('public'));
+
+
+
+
 app.get('/', (req,res)=>{
     res.render('home'); // Mi HTML de Home
 })

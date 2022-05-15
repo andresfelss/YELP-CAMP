@@ -1,6 +1,4 @@
 const express = require('express');
-const { append } = require('express/lib/response');
-const { findByIdAndUpdate, findByIdAndDelete } = require('../models/campground');
 const Campground = require('../models/campground');
 const Review = require('../models/review')
 const router = express.Router();
