@@ -74,7 +74,7 @@ router.post('/:id/reviews',validateReview, cathcAsync(async(req,res)=>{
 
 router.delete('/:id/reviews/:reviewId', cathcAsync(async(req,res) =>{
   const { id,reviewId } =req.params;
-  await Campground.findByIdAndUpdate(id,{$pull: {reviews: reviewId}});
+  await Campground.findByIdAndUpdate(id,{$pull: {reviews: reviewId}}); // quito el Review correspondiente al reviewId de reviews(camp)
   await Review.findByIdAndDelete(reviewId);
   res.redirect(`/api/campgrounds/${id}`);
 }));
