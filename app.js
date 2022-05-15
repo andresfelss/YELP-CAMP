@@ -1,6 +1,7 @@
 // Modulos que necesitamos importar
 const { Console } = require('console');
 const express = require('express');
+const session = require('express-session');
 const mongoose  = require('mongoose');
 const path =require('path');
 const methodOverride = require('method-override');
@@ -27,7 +28,18 @@ main().catch(e => console.log(e));
 // Serving static files (public directory)
 app.use(express.static(path.join(__dirname,'public')));
 
-
+// Config sessions
+const  sessionConfig = { 
+    secret: 'secretWord',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000*60*60*24*7, // Para que expire en 1 semana
+        maxAge: 1000*60*60*24*7
+    },
+}
+app.use(session(sessionConfig))
 
 
 app.get('/', (req,res)=>{
