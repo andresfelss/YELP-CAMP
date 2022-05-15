@@ -8,6 +8,9 @@ const methodOverride = require('method-override');
 const engine = require('ejs-mate')
 const main = require('./config/mongo'); // llamo la configuracion de mi Base de Datos
 const ExpressError = require('./helpers/ExpressErrors')
+const passport = require('passport');
+const localStrategy = require('passport-local');
+const User = require('./models/user');
 // ---------------- El codigo empieza aca ---------------------------------------------
 const app = express(); // Inicio mi express app
 
@@ -50,6 +53,18 @@ app.use((req,res,next)=>{
     res.locals.error = req.flash('error'); // on every single req pass to a local res the message
     next();
 });
+
+// Configuracion de Passport
+app.use(passport.session());
+passport.use(new localStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser()); // SERIALIZATION HOW DO WE STORE A USER IN A SESSION
+passport.deserializeUser(User.deserializeUser()) // HOW DO WE UNSTORED IN A SESSION
+
+app.get('/fakeUser', async(req, res) =>{
+    const user=new User({ email: 'coltttt@gmail.com', username: 'coltt'})
+    const newUser = await User.register(user,'chicken'); // Pasa el usuario y la contraseña
+    res.send(newUser);
+})
 
 app.get('/', (req,res)=>{
     res.render('home'); // Mi HTML de Home
