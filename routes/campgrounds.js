@@ -68,8 +68,16 @@ router.post('/:id/reviews',validateReview, cathcAsync(async(req,res)=>{
   await camp.save();
   res.redirect(`/api/campgrounds/${camp._id}`);
 }));
+/**
+ * Ruta para eliminar un review
+ */
 
-
+router.delete('/:id/reviews/:reviewId', cathcAsync(async(req,res) =>{
+  const { id,reviewId } =req.params;
+  await Campground.findByIdAndUpdate(id,{$pull: {reviews: reviewId}});
+  await Review.findByIdAndDelete(reviewId);
+  res.redirect(`/api/campgrounds/${id}`);
+}));
 
 
 module.exports = router;
