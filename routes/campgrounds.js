@@ -6,7 +6,8 @@ const Review = require('../models/review')
 const router = express.Router();
 const cathcAsync = require('../helpers/catchAsync');
 const ExpressError = require('../helpers/ExpressErrors');
-const validateCampground = require('../validators/campgroundValidator')
+const validateCampground = require('../validators/campgroundValidator');
+const validateReview = require('../validators/reviewsValidator');
 
 
 // Crear Campground
@@ -59,7 +60,7 @@ router.delete('/:id', cathcAsync(async(req,res) =>{
 /**
  * Ruta para crear un Review
  */
-router.post('/:id/reviews', cathcAsync(async(req,res)=>{
+router.post('/:id/reviews',validateReview, cathcAsync(async(req,res)=>{
   const camp = await Campground.findById(req.params.id);
   const review = new Review(req.body.review);
   camp.reviews.push(review);
