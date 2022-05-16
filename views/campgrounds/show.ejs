@@ -1,5 +1,5 @@
 <% layout('layouts/boilerplate') %> 
-
+<link rel="stylesheet" href="/styles/stars.css">
 <div class="row mb-4">
     <div class="col-6 ">
         <div class="card">
@@ -30,12 +30,21 @@
           <% if(usuario){ %> 
           <h3>Leave a review</h3>
           <form action="/api/campgrounds/<%= camp._id %>/reviews" method="post" novalidate class="validated-form mb-2">
-            <div class="mb-3">
-              <label for="rating" class="form-label">Rate</label>
-              <input type="range" min="1" max="5" class="form-range" id="rating" name="review[rating]">
-            </div>
-            <div class="mb-3">
-              <label for="body" class="form-label">Review</label>
+            <fieldset class="starability-basic">
+              <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
+              <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+              <label for="first-rate1" title="Terrible">1 star</label>
+              <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+              <label for="first-rate2" title="Not good">2 stars</label>
+              <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+              <label for="first-rate3" title="Average">3 stars</label>
+              <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+              <label for="first-rate4" title="Very good">4 stars</label>
+              <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+              <label for="first-rate5" title="Amazing">5 stars</label>
+            </fieldset>
+            <div class="mb-2">
+              <label for="body" class="form-label">Review:</label>
               <textarea name="review[body]" id="body" cols="30" rows="4" class="form-control" required></textarea>
             </div>
             <button class="btn btn-success">Send</button>
@@ -51,11 +60,15 @@
                     <form action="/api/campgrounds/<%= camp._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST" class="d-inline">
                       <button class="material-symbols-outlined btn btn-danger btn-sm">delete</button>
                     </form>
-                    <% } %>
-                      Rating: <%= review.rating %>
-                      By: <%= review.author.username %> 
+                    <% } %> 
+                    <h5 class="card-subtitle mb-1 text-muted ">
+                      <%= review.author.username %> 
+                    </h5>
+                      <p class="starability-result mx-0 px-0 " data-rating="<%= review.rating %>">
+                        Rate
+                      </p>
                   </h5>
-                  <p class="card-text"> Review: <%= review.body %> </p>
+                  <p class="card-text"> <%= review.body %> </p>
                 </div>
               </div>
               <% } %>  
