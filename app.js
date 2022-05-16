@@ -57,6 +57,9 @@ passport.deserializeUser(User.deserializeUser()) // HOW DO WE UNSTORED IN A SESS
 
 // Defino middleware para flash
 app.use((req,res,next)=>{
+    if(!['/api/users/login','/','api/users/logout'].includes(req.originalUrl)){
+        req.session.returnTo = req.originalUrl;
+    }
     res.locals.usuario = req.user;
     res.locals.success = req.flash('success'); // on every single req pass to a local res the message
     res.locals.error = req.flash('error'); // on every single req pass to a local res the message

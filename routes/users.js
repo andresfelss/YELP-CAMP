@@ -31,14 +31,16 @@ router.get('/login', (req,res)=>{
 });
 router.post('/login',passport.authenticate('local',{failureFlash: true, failureRedirect:'/api/users/login'}), (req,res) =>{
     req.flash('success', 'Welcom back');
-    res.redirect('/api/campgrounds');
+    const urlRedirect = req.session.returnTo || '/api/campgrounds' // its possbile that its not a returnTo
+    delete req.session.returnTo
+    res.redirect(urlRedirect);
 })
 
 // Ruta para el Log out
 router.get('/logout', (req,res)=>{
     req.logout(); // Facilito
     req.flash('success', 'Goodbay Amigo!');
-    res.redirect('/');
+    res.redirect('/api/campgrounds');
 })
 
 module.exports = router;
