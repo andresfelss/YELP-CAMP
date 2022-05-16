@@ -13,12 +13,20 @@ const isReviewAuthor = require('../middlewares/isReviewAuthor');
 const {index, newCampgroundForm, createCampground, showCampground, 
 editCampgroundForm, updateCampground, deleteCampground, createReview, deleteReview} = require('../controllers/campgrounds');
 
+//configuring multer
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/'});
+
+
 
 /**
  * Crear Campground
  */
 router.get('/new', isLoggedIn, newCampgroundForm);
-router.post('/',isLoggedIn,validateCampground,cathcAsync(createCampground));
+// router.post('/',isLoggedIn,validateCampground,cathcAsync(createCampground));
+router.post('/', upload.single('image'),(req,res)=>{
+    res.send(req.body, req.file);
+});
 
 /**
  * Listar Campgrounds

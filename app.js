@@ -1,3 +1,8 @@
+if (process.env.NODE_ENV !== 'production'){
+    require('dotenv').config();
+}
+
+console.log(process.env.SECRET)
 // Modulos que necesitamos importar
 const express = require('express');
 const session = require('express-session');
