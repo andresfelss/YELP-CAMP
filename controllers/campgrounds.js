@@ -44,10 +44,16 @@ const editCampgroundForm = async(req,res) => {
 };
 const updateCampground = async(req,res) =>{
     const {id} = req.params;
+    console.log(req.body.deleteImages)
     const camp = await Campground.findByIdAndUpdate(id, {...req.body.campground}, {runValidators:true});
     const imgs = req.files.map(f => ({url: f.path,filename:f.filename}));
     camp.images.push(...imgs);
     await camp.save();
+    // para elimnar imagenes 
+    if (req.body.deleteImages){
+        await camp.updateOne({ $pull: { images:{ filename: { $in: req.body.deleteImages }}}}) // sacar del array de imagenes todas las imagenes que coincidan con filename que tenemos en deleteImages array
+        console.log(camp)
+    }
     req.flash('success', 'Succesful Updated Campground');
     res.redirect(`/api/campgrounds/${camp._id}`);
 }

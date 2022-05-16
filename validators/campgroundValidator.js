@@ -9,7 +9,8 @@ const validateCampground = (req,res,next)=>{
           // image: Joi.string(),
           location: Joi.string().required(),
           description: Joi.string().required(),
-        }).required()
+        }).required(),
+        deleteImages: Joi.array()
       });
       const  {error} = campgroundSchema.validate(req.body);
       if(error){

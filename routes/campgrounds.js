@@ -38,7 +38,7 @@ router.get('/:id',cathcAsync(showCampground));
  * Edit Campground
  */
 router.get('/:id/edit',isLoggedIn,isAuthor,cathcAsync(editCampgroundForm));
-router.put('/:id',isLoggedIn,isAuthor,upload.array('image'),validateCampground, cathcAsync(updateCampground));
+router.put('/:id',isLoggedIn,isAuthor,upload.array('image'),validateCampground,cathcAsync(updateCampground));
 
 /**
  * Delete Route
