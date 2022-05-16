@@ -1,5 +1,6 @@
 const Campground = require('../models/campground');
 const Review = require('../models/review');
+const {cloudinary} = require('../config/cloudinary');
 
 // Listar Campgrounds
 const index = async(req,res)=>{
@@ -51,6 +52,9 @@ const updateCampground = async(req,res) =>{
     await camp.save();
     // para elimnar imagenes 
     if (req.body.deleteImages){
+        for (let filename of req.body.deleteImages){
+            await cloudinary.uploader.destroy(filename) // las elimino de cloudinary
+        }
         await camp.updateOne({ $pull: { images:{ filename: { $in: req.body.deleteImages }}}}) // sacar del array de imagenes todas las imagenes que coincidan con filename que tenemos en deleteImages array
         console.log(camp)
     }
