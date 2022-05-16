@@ -34,6 +34,11 @@ router.post('/login',passport.authenticate('local',{failureFlash: true, failureR
     res.redirect('/api/campgrounds');
 })
 
-
+// Ruta para el Log out
+router.get('/logout', (req,res)=>{
+    req.logout(); // Facilito
+    req.flash('success', 'Goodbay Amigo!');
+    res.redirect('/');
+})
 
 module.exports = router;
