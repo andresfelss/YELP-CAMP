@@ -11,6 +11,7 @@ const validateReview = require('../validators/reviewsValidator');
 
 const isLoggedIn = require('../middlewares/isLoggedIn');
 const isAuthor = require('../middlewares/isAuthor');
+const isReviewAuthor = require('../middlewares/isReviewAuthor');
 
 
 // Crear Campground
@@ -34,7 +35,9 @@ router.get('/', cathcAsync(async (req,res)=>{
 }));
 router.get('/:id',cathcAsync(async(req,res)=>{
   const {id} = req.params;
-  const camp = await Campground.findById(id).populate('reviews').populate('author');
+  const camp = await Campground.findById(id).populate(
+    {path: 'reviews',
+    populate:{path: 'author'}}).populate('author');
   if(!camp){ // si no encuentro el campgrund que me devuelva a all campgrounds y me tira la alerta
     req.flash('error', 'Cannot Find that Campground');
     return res.redirect('/api/campgrounds');
@@ -79,6 +82,7 @@ router.delete('/:id',isLoggedIn, cathcAsync(async(req,res) =>{
 router.post('/:id/reviews',isLoggedIn,validateReview, cathcAsync(async(req,res)=>{
   const camp = await Campground.findById(req.params.id);
   const review = new Review(req.body.review);
+  review.author = req.user._id;
   camp.reviews.push(review);
   await review.save();
   await camp.save();
@@ -89,7 +93,7 @@ router.post('/:id/reviews',isLoggedIn,validateReview, cathcAsync(async(req,res)=
  * Ruta para eliminar un review
  */
 
-router.delete('/:id/reviews/:reviewId',isLoggedIn, cathcAsync(async(req,res) =>{
+router.delete('/:id/reviews/:reviewId',isLoggedIn,isReviewAuthor, cathcAsync(async(req,res) =>{
   const { id,reviewId } =req.params;
   await Campground.findByIdAndUpdate(id,{$pull: {reviews: reviewId}}); // quito el Review correspondiente al reviewId de reviews(camp)
   await Review.findByIdAndDelete(reviewId);

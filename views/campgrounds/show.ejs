@@ -27,8 +27,7 @@
           </div>
         </div>
         <div class="col-6">
-          
-          
+          <% if(usuario){ %> 
           <h3>Leave a review</h3>
           <form action="/api/campgrounds/<%= camp._id %>/reviews" method="post" novalidate class="validated-form mb-2">
             <div class="mb-3">
@@ -41,21 +40,27 @@
             </div>
             <button class="btn btn-success">Send</button>
           </form>
-          <% for(let review of camp.reviews){ %>
-            <div class="card mb-3">
-              <div class="card-body">
-                
-                <h5 class="card-title ">
-                  <form action="/api/campgrounds/<%= camp._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST" class="d-inline">
-                    <button class="material-symbols-outlined btn btn-danger btn-sm">delete</button>
-                  </form>
-                    Rating: <%= review.rating %> 
-                </h5>
-                
-                <p class="card-text"> Review: <%= review.body %> </p>
-                
+          <% } %> 
+          <h4>Reviews</h4>
+          <% if(camp.reviews.length != 0){ %> 
+            <% for(let review of camp.reviews){ %>
+              <div class="card mb-3">
+                <div class="card-body">
+                  <h5 class="card-title ">
+                    <% if(usuario && review.author.equals(usuario._id)){ %>
+                    <form action="/api/campgrounds/<%= camp._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST" class="d-inline">
+                      <button class="material-symbols-outlined btn btn-danger btn-sm">delete</button>
+                    </form>
+                    <% } %>
+                      Rating: <%= review.rating %>
+                      By: <%= review.author.username %> 
+                  </h5>
+                  <p class="card-text"> Review: <%= review.body %> </p>
+                </div>
               </div>
-            </div>
-          <% } %>  
+              <% } %>  
+          <% }else{ %>
+            <h4>There is not Reviews Yet</h4>
+          <% } %>   
     </div>
 </div>
