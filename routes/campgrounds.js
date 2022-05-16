@@ -1,12 +1,16 @@
 const express = require('express');
+const router = express.Router();
+
 const Campground = require('../models/campground');
 const Review = require('../models/review')
-const router = express.Router();
+
 const cathcAsync = require('../helpers/catchAsync');
 const ExpressError = require('../helpers/ExpressErrors');
 const validateCampground = require('../validators/campgroundValidator');
 const validateReview = require('../validators/reviewsValidator');
+
 const isLoggedIn = require('../middlewares/isLoggedIn');
+const isAuthor = require('../middlewares/isAuthor');
 
 
 // Crear Campground
@@ -41,7 +45,7 @@ router.get('/:id',cathcAsync(async(req,res)=>{
 /**
  * Edit Campground
  */
-router.get('/:id/edit',isLoggedIn, cathcAsync(async(req,res) => {
+router.get('/:id/edit',isLoggedIn,isAuthor,cathcAsync(async(req,res) => {
   const {id} = req.params;
   const camp = await Campground.findById(id);
   if(!camp){ // si trato de editar un campground que no existe
@@ -50,7 +54,8 @@ router.get('/:id/edit',isLoggedIn, cathcAsync(async(req,res) => {
   }
   res.render('campgrounds/edit' , {camp});
 }));
-router.put('/:id',isLoggedIn,validateCampground, cathcAsync(async(req,res) =>{
+
+router.put('/:id',isLoggedIn,isAuthor,validateCampground, cathcAsync(async(req,res) =>{
   const {id} = req.params;
   const camp = await Campground.findByIdAndUpdate(id, {...req.body.campground}, {runValidators:true});
   req.flash('success', 'Succesful Updated Campground');
