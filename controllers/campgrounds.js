@@ -34,14 +34,13 @@ const createCampground = async(req,res)=>{
         query: req.body.campground.location,
         limit: 1
     }).send()
-    console.log(geoData.body.features[0].geometry.coordinates);
-    res.send('OKK')
-    // const camp = new Campground(req.body.campground);
-    // camp.images = req.files.map(f =>({url:f.path,filename: f.filename})); // me crea un array con las imagenes especificando url y filename
-    // camp.author = req.user._id; // El user añadido automaticamente
-    // await camp.save();
-    // req.flash('success', 'Succesful made a New Campground');
-    // res.redirect(`campgrounds/${camp._id}`);
+    const camp = new Campground(req.body.campground);
+    camp.geometry =  geoData.body.features[0].geometry; // Gurdamos la gemoetria que incluye las coordenandas 
+    camp.images = req.files.map(f =>({url:f.path,filename: f.filename})); // me crea un array con las imagenes especificando url y filename
+    camp.author = req.user._id; // El user añadido automaticamente
+    await camp.save();
+    req.flash('success', 'Succesful made a New Campground');
+    res.redirect(`campgrounds/${camp._id}`);
 };
 
 //Editar Campgrounds
