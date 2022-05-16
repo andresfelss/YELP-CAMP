@@ -13,8 +13,9 @@ const isLoggedIn = require('../middlewares/isLoggedIn');
 router.get('/new', isLoggedIn,(req,res)=>{
   res.render('campgrounds/new');
 })
-router.post('/',validateCampground,cathcAsync(async(req,res)=>{
+router.post('/',isLoggedIn,validateCampground,cathcAsync(async(req,res)=>{
   const camp = new Campground(req.body.campground);
+  camp.author = req.user._id; // El user añadido automaticamente
   await camp.save();
   req.flash('success', 'Succesful made a New Campground');
   res.redirect(`campgrounds/${camp._id}`);
@@ -29,7 +30,7 @@ router.get('/', cathcAsync(async (req,res)=>{
 }));
 router.get('/:id',cathcAsync(async(req,res)=>{
   const {id} = req.params;
-  const camp = await Campground.findById(id).populate('reviews');
+  const camp = await Campground.findById(id).populate('reviews').populate('author');
   if(!camp){ // si no encuentro el campgrund que me devuelva a all campgrounds y me tira la alerta
     req.flash('error', 'Cannot Find that Campground');
     return res.redirect('/api/campgrounds');
