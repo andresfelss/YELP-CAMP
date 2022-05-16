@@ -28,7 +28,6 @@ const createCampground = async(req,res)=>{
     camp.images = req.files.map(f =>({url:f.path,filename: f.filename})); // me crea un array con las imagenes especificando url y filename
     camp.author = req.user._id; // El user añadido automaticamente
     await camp.save();
-    console.log(camp);
     req.flash('success', 'Succesful made a New Campground');
     res.redirect(`campgrounds/${camp._id}`);
 };
@@ -45,7 +44,6 @@ const editCampgroundForm = async(req,res) => {
 };
 const updateCampground = async(req,res) =>{
     const {id} = req.params;
-    console.log(req.body.deleteImages)
     const camp = await Campground.findByIdAndUpdate(id, {...req.body.campground}, {runValidators:true});
     const imgs = req.files.map(f => ({url: f.path,filename:f.filename}));
     camp.images.push(...imgs);
@@ -56,7 +54,6 @@ const updateCampground = async(req,res) =>{
             await cloudinary.uploader.destroy(filename) // las elimino de cloudinary
         }
         await camp.updateOne({ $pull: { images:{ filename: { $in: req.body.deleteImages }}}}) // sacar del array de imagenes todas las imagenes que coincidan con filename que tenemos en deleteImages array
-        console.log(camp)
     }
     req.flash('success', 'Succesful Updated Campground');
     res.redirect(`/api/campgrounds/${camp._id}`);
