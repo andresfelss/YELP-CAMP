@@ -14,8 +14,10 @@ const {index, newCampgroundForm, createCampground, showCampground,
 editCampgroundForm, updateCampground, deleteCampground, createReview, deleteReview} = require('../controllers/campgrounds');
 
 //configuring multer
+const {storage} = require('../config/cloudinary');
+
 const multer  = require('multer')
-const upload = multer({ dest: 'uploads/'});
+const upload = multer({storage}); // para que lo guarde en cloudinary
 
 
 
@@ -24,8 +26,9 @@ const upload = multer({ dest: 'uploads/'});
  */
 router.get('/new', isLoggedIn, newCampgroundForm);
 // router.post('/',isLoggedIn,validateCampground,cathcAsync(createCampground));
-router.post('/', upload.single('image'),(req,res)=>{
-    res.send(req.body, req.file);
+router.post('/', upload.array('image'),(req,res)=>{
+    console.log(req.body, req.files);
+    res.send('Worked');
 });
 
 /**
