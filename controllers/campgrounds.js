@@ -24,8 +24,10 @@ const newCampgroundForm = (req,res)=>{
 };
 const createCampground = async(req,res)=>{
     const camp = new Campground(req.body.campground);
+    camp.images = req.files.map(f =>({url:f.path,filename: f.filename})); // me crea un array con las imagenes especificando url y filename
     camp.author = req.user._id; // El user añadido automaticamente
     await camp.save();
+    console.log(camp);
     req.flash('success', 'Succesful made a New Campground');
     res.redirect(`campgrounds/${camp._id}`);
 };

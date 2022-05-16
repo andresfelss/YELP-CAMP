@@ -25,11 +25,8 @@ const upload = multer({storage}); // para que lo guarde en cloudinary
  * Crear Campground
  */
 router.get('/new', isLoggedIn, newCampgroundForm);
-// router.post('/',isLoggedIn,validateCampground,cathcAsync(createCampground));
-router.post('/', upload.array('image'),(req,res)=>{
-    console.log(req.body, req.files);
-    res.send('Worked');
-});
+router.post('/',isLoggedIn,upload.array('image'),validateCampground,cathcAsync(createCampground));
+
 
 /**
  * Listar Campgrounds
