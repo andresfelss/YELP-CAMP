@@ -47,18 +47,21 @@ app.use(session(sessionConfig))
 //Config flash ,Recordar definir el middleware
 app.use(flash());
 
-// Defino middleware para flash
-app.use((req,res,next)=>{
-    res.locals.success = req.flash('success'); // on every single req pass to a local res the message
-    res.locals.error = req.flash('error'); // on every single req pass to a local res the message
-    next();
-});
+
 
 // Configuracion de Passport
 app.use(passport.session());
 passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser()); // SERIALIZATION HOW DO WE STORE A USER IN A SESSION
 passport.deserializeUser(User.deserializeUser()) // HOW DO WE UNSTORED IN A SESSION
+
+// Defino middleware para flash
+app.use((req,res,next)=>{
+    res.locals.usuario = req.user;
+    res.locals.success = req.flash('success'); // on every single req pass to a local res the message
+    res.locals.error = req.flash('error'); // on every single req pass to a local res the message
+    next();
+});
 
 app.get('/fakeUser', async(req, res) =>{
     const user=new User({ email: 'coltttt@gmail.com', username: 'coltt'})

@@ -12,9 +12,12 @@
         </div>
       </div>      
       <div class="navbar-nav">
-        <a href="/api/users/login" class="nav-link">Log In</a>
-        <a href="/api/users/register" class="nav-link">Register</a>
-        <a href="/api/users/logout" class="nav-link">Log Out</a>
+        <% if(!usuario){ %>
+          <a href="/api/users/login" class="nav-link">Log In</a>
+          <a href="/api/users/register" class="nav-link">Register</a>
+        <% }else{ %>  
+          <a href="/api/users/logout" class="nav-link">Log Out</a>
+        <% } %> 
       </div>
     </div>
 </nav>
