@@ -11,6 +11,9 @@ const ImgSchema = new Schema({
 ImgSchema.virtual('thumbnail').get(function(){
     return this.url.replace('/upload','/upload/w_200');  // no lo guardamos es solo una URL mirar (virtual property)
 });
+
+const opts = {toJSON: {virtuals: true}}; // Para acceder al el cuando lo stringify
+
 const CampgroundSchema = new Schema({
     title: String,
     images: [ImgSchema],
@@ -38,7 +41,14 @@ const CampgroundSchema = new Schema({
             ref: 'Review'
         }
     ]
+},opts);
+
+// virtual para mapBox
+CampgroundSchema.virtual('properties.popUpMarkup').get(function(){
+    return `<strong><a href="/api/campgrounds/${this._id}">${this.title}</a><strong>
+    <p>${this.description.substring(0,30)}...`
 });
+
 CampgroundSchema.post('findOneAndDelete', async function(camp){
     if(camp){
         await Review.deleteMany({
