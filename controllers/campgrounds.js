@@ -45,6 +45,9 @@ const editCampgroundForm = async(req,res) => {
 const updateCampground = async(req,res) =>{
     const {id} = req.params;
     const camp = await Campground.findByIdAndUpdate(id, {...req.body.campground}, {runValidators:true});
+    const imgs = req.files.map(f => ({url: f.path,filename:f.filename}));
+    camp.images.push(...imgs);
+    await camp.save();
     req.flash('success', 'Succesful Updated Campground');
     res.redirect(`/api/campgrounds/${camp._id}`);
 }
