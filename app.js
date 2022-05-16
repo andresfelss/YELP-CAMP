@@ -11,6 +11,7 @@ const ExpressError = require('./helpers/ExpressErrors')
 const passport = require('passport');
 const localStrategy = require('passport-local');
 const User = require('./models/user');
+
 // ---------------- El codigo empieza aca ---------------------------------------------
 const app = express(); // Inicio mi express app
 
@@ -66,11 +67,6 @@ app.use((req,res,next)=>{
     next();
 });
 
-app.get('/fakeUser', async(req, res) =>{
-    const user=new User({ email: 'coltttt@gmail.com', username: 'coltt'})
-    const newUser = await User.register(user,'chicken'); // Pasa el usuario y la contraseña
-    res.send(newUser);
-})
 
 app.get('/', (req,res)=>{
     res.render('home'); // Mi HTML de Home
