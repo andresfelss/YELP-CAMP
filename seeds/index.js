@@ -34,6 +34,10 @@ const seedDB = async()=>{
                   filename: 'YelpCamp/ushkgfi4r9sxjhqvq1ie',
                 }
             ],
+            geometry: {
+              "type": "Point",
+              "coordinates": [-73.1733,10.3844]
+            },
             description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui neque necessitatibus harum voluptatibus, veniam nemo veritatis at soluta iusto perspiciatis dolorum dignissimos placeat, nulla aperiam esse suscipit blanditiis aut consectetur            Libero quae, omnis quibusdam doloremque dignissimos, quas magni reprehenderit, tenetur repellendus labore odit earum asperiores laudantium sit. Officia cumque beatae ut, non, dolorem nisi voluptatibus culpa magnam, placeat odio repudiandae?",
             price: price,
             author: '62818d4da5d9d650960ae2f3'
@@ -41,7 +45,6 @@ const seedDB = async()=>{
         await camp.save();
     }
 }
-
 
 seedDB().then(() =>{
     mongoose.connection.close();
