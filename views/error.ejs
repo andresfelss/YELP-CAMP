@@ -2,7 +2,7 @@
 <% layout('layouts/boilerplate') %> 
 <div class="alert alert-danger" role="alert">
     <h4 class="alert-heading text-center"><%= err.message %>  <%= err.statusCode %> </h4>
-    <% if(procces.env.NODE_ENV !== 'production'){ %> 
+    <% if(proccess.env.NODE_ENV !== 'production'){ %> 
     <p>
         <%= err.stack %> 
     </p>
