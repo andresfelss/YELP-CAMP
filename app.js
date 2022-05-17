@@ -22,6 +22,7 @@ const MongoDBStore = require('connect-mongo');
 
 // ---------------- El codigo empieza aca ---------------------------------------------
 const app = express(); // Inicio mi express app
+const dbURL = process.env.DB_URL || 'mongodb://127.0.0.1:27017/yelp-campDB'
 
 // Configurando  HELMET
 const scriptSrcUrls = [
@@ -87,10 +88,11 @@ main().catch(e => console.log(e));
 app.use(express.static(path.join(__dirname,'public')));
 
 // Config sessions
+const secret = process.env.SECRET || 'secretWord'
 const store =  MongoDBStore.create({
-    mongoUrl: 'mongodb://127.0.0.1:27017/yelp-campDB',
+    mongoUrl: dbURL,
     crypto: {
-        secret: 'secretWord'
+        secret: secret
     },
     touchAfter: 24*3600, // revisar docs esta en s 
 })
@@ -101,7 +103,7 @@ store.on('error', function(e){
 const  sessionConfig = { 
     store,
     name: 'sessionNanme', // we should put another name that is no easy to recognize
-    secret: 'secretWord',
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
