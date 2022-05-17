@@ -18,6 +18,7 @@ const localStrategy = require('passport-local');
 const User = require('./models/user');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet'); 
+const MongoDBStore = require('connect-mongo');
 
 // ---------------- El codigo empieza aca ---------------------------------------------
 const app = express(); // Inicio mi express app
@@ -86,7 +87,19 @@ main().catch(e => console.log(e));
 app.use(express.static(path.join(__dirname,'public')));
 
 // Config sessions
+const store =  MongoDBStore.create({
+    mongoUrl: 'mongodb://127.0.0.1:27017/yelp-campDB',
+    crypto: {
+        secret: 'secretWord'
+    },
+    touchAfter: 24*3600, // revisar docs esta en s 
+})
+store.on('error', function(e){
+    console.log('SESSION STORE ERROR',e);
+});
+
 const  sessionConfig = { 
+    store,
     name: 'sessionNanme', // we should put another name that is no easy to recognize
     secret: 'secretWord',
     resave: false,
