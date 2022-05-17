@@ -16,6 +16,7 @@ const ExpressError = require('./helpers/ExpressErrors')
 const passport = require('passport');
 const localStrategy = require('passport-local');
 const User = require('./models/user');
+const mongoSanitize = require('express-mongo-sanitize');
 
 // ---------------- El codigo empieza aca ---------------------------------------------
 const app = express(); // Inicio mi express app
@@ -60,6 +61,9 @@ app.use(passport.session());
 passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser()); // SERIALIZATION HOW DO WE STORE A USER IN A SESSION
 passport.deserializeUser(User.deserializeUser()) // HOW DO WE UNSTORED IN A SESSION
+
+// Mongo sanatize
+app.use(mongoSanitize()); // bloqs and delete querys bodys and params wit $ or . (reserved for Mongo)
 
 // Defino middleware para flash
 app.use((req,res,next)=>{
