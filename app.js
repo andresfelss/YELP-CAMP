@@ -159,8 +159,10 @@ app.use((err,req,res,next)=>{
 
 
 // EL listen siempre al final
-app.listen(3000, ()=>{
-    console.log('Serving On port 3000: http://localhost:3000/ ')
+const port = process.env.PORT || 3000;
+
+app.listen(port, ()=>{
+    console.log(`Serving On port ${port} `)
 });
 
 // mongodb+srv://<username>:<password>@cluster0.6vgom.mongodb.net/?retryWrites=true&w=majority
