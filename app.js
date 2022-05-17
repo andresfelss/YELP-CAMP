@@ -40,11 +40,13 @@ app.use(express.static(path.join(__dirname,'public')));
 
 // Config sessions
 const  sessionConfig = { 
+    name: 'sessionNanme', // we should put another name that is no easy to recognize
     secret: 'secretWord',
     resave: false,
     saveUninitialized: true,
     cookie: {
-        httpOnly: true,
+        httpOnly: true, // Solo son accesibles por Http NO por Javascript
+        // secure: true, // Only work for HTTPS so gonna break things because localhost is NOT https
         expires: Date.now() + 1000*60*60*24*7, // Para que expire en 1 semana
         maxAge: 1000*60*60*24*7
     },
@@ -53,8 +55,6 @@ app.use(session(sessionConfig))
 
 //Config flash ,Recordar definir el middleware
 app.use(flash());
-
-
 
 // Configuracion de Passport
 app.use(passport.session());
@@ -79,9 +79,11 @@ app.use((req,res,next)=>{
 
 app.get('/', (req,res)=>{
     res.render('home'); // Mi HTML de Home
-})
+});
+
 // Para cargar de manera dinamica las rutas
 app.use("/api", require('./routes'));
+
 //Ruta de manejo de errores
 app.all('*',(req,res,next)=>{
     next( new ExpressError('Page Not Found', 404) );
