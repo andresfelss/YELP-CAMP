@@ -31,7 +31,7 @@ const loginUser = (req,res) =>{
 //logout
 const logOut = (req,res)=>{
     req.logout(); // Facilito
-    req.flash('success', 'Adios perro Hpta');
+    req.flash('success', 'Goodbay, Come back soon');
     res.redirect('/api/campgrounds');
 }
 
