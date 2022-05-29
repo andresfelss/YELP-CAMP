@@ -8,6 +8,6 @@ Link to the Web Page https://vast-journey-53539.herokuapp.com/
 ![image](https://user-images.githubusercontent.com/83229150/170870095-cf1bd4a8-676a-42e1-912c-f1f3f323ff5a.png)
 
 ## Editing a Campground
-For Editing your user must be the creator of the campground and obviucly be sign in with that acount
+For Editing your user must be the creator of the campground and obviusly be sign in with that account
 ![image](https://user-images.githubusercontent.com/83229150/170870167-dd42cfb1-67e3-4a01-abfe-76e458849ca5.png)
 
